@@ -1,0 +1,20 @@
+.settings-modal {
+    --border-radius: 20px;
+    --max-height: 100%;
+    --max-width: 100%;
+    --width: 92%;
+    --height: 90%;
+}
+
+.settings-progress {
+    --border-radius: 20px;
+    --max-height: 100%;
+    --max-width: 100%;
+    --width: 80%;
+    --height: 50%;
+    background-color: black;
+}
+
+.settings-toast {
+    text-align: center;
+}
