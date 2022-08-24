@@ -139,14 +139,13 @@ export default defineComponent({
          * cancel the picture already taken or cancel the process of changing description,
          * depends of the source we return to one view or another
          * @param uuid
-         * @param photo
          */
         async function cancel(uuid: string) {
             const history = window.location.pathname;
             if (history == "/home/camera") {
-                await deletePicture(uuid, images.get(uuid)!);
-                modalController.dismiss(null, "cancel");
+                await deletePicture(uuid);
                 startCamera();
+                modalController.dismiss(images, "confirm");
             } else {
                 modalController.dismiss(null, "cancel");
             }

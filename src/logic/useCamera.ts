@@ -182,15 +182,8 @@ export function useCameraMobile() {
      * @param uuid
      * @param photo
      */
-    const deletePicture = async (uuid: string, photo: Image) => {
+    const deletePicture = async (uuid: string) => {
         images.delete(uuid);
-
-        // delete photo file from filesystem
-        const filename = photo.path.substring(photo.path.lastIndexOf("/") + 1);
-        await Filesystem.deleteFile({
-            path: filename,
-            directory: Directory.Data,
-        });
 
         const path = window.location.pathname;
 

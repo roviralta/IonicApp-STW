@@ -111,7 +111,7 @@ export default defineComponent({
          */
         async function confirm(uuid: string) {
             // eslint-disable-next-line
-            deletePicture(uuid, images.get(uuid)!);
+            deletePicture(uuid);
             return modalController.dismiss(images, "confirm");
         }
 
