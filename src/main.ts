@@ -4,10 +4,6 @@ import router from "./router";
 
 import { IonicVue } from "@ionic/vue";
 
-// Import Bootstrap and BootstrapVue CSS files (order is important)
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap-vue/dist/bootstrap-vue.css";
-
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/vue/css/core.css";
 
