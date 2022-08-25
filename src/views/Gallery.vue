@@ -39,60 +39,65 @@
             </ion-grid>
         </ion-header>
         <ion-content :fullscreen="true">
-            <ion-list style="padding: 0px" :key="img[0]" v-for="img in images">
-                <ion-item
-                    class="animate__animated animate__backInUp ainamte__fast"
-                    button
-                    v-on:click.self="openPreview(img[0])"
+            <div
+                class="animate__animated animate__fadeInLeftBig animate__delay-1s"
+            >
+                <ion-list
+                    style="padding: 0px"
+                    :key="img[0]"
+                    v-for="img in images"
                 >
-                    <ion-thumbnail slot="start">
-                        <ion-img
-                            name="file"
-                            button
-                            :src="img[1].webviewPath"
-                            v-on:click="
-                                openModal(
-                                    Image,
-                                    img[0],
-                                    images,
-                                    'settings-modal'
-                                )
+                    <ion-item button v-on:click.self="openPreview(img[0])">
+                        <ion-thumbnail slot="start">
+                            <ion-img
+                                name="file"
+                                button
+                                :src="img[1].webviewPath"
+                                v-on:click="
+                                    openModal(
+                                        Image,
+                                        img[0],
+                                        images,
+                                        'settings-modal'
+                                    )
+                                "
+                            ></ion-img>
+                        </ion-thumbnail>
+                        <ion-label
+                            style="
+                                font-size: 14px;
+                                font-family: 'Courier New', Courier, monospace;
                             "
-                        ></ion-img>
-                    </ion-thumbnail>
-                    <ion-label
-                        style="
-                            font-size: 14px;
-                            font-family: 'Courier New', Courier, monospace;
-                        "
-                        button
-                        v-on:click="openPreview(img[0])"
-                    >
-                        <b style="font-size: 18px"> {{ img[1].description }} </b
-                        ><br /><br />
-                        {{ img[1].date }}
-                    </ion-label>
+                            button
+                            v-on:click="openPreview(img[0])"
+                        >
+                            <b style="font-size: 18px">
+                                {{ img[1].description }} </b
+                            ><br /><br />
+                            {{ img[1].date }}
+                        </ion-label>
 
-                    <ion-button
-                        id="btn"
-                        style="position: absolute; right: 0px"
-                        color="danger"
-                        v-on:click="
-                            openModal(Delete, img[0], img, 'settings-modal')
-                        "
-                    >
-                        <ion-icon :icon="trash"> </ion-icon>
-                    </ion-button>
-                    <ion-button
-                        id="btn"
-                        style="position: absolute; right: 35px"
-                        color="dark"
-                        v-on:click="uploadFile(img[1], true)"
-                    >
-                        <ion-icon :icon="cloudUpload"> </ion-icon>
-                    </ion-button>
-                </ion-item>
-            </ion-list>
+                        <ion-button
+                            id="btn"
+                            style="position: absolute; right: 0px"
+                            color="danger"
+                            v-on:click="
+                                openModal(Delete, img[0], img, 'settings-modal')
+                            "
+                        >
+                            <ion-icon :icon="trash"> </ion-icon>
+                        </ion-button>
+                        <ion-button
+                            id="btn"
+                            style="position: absolute; right: 35px"
+                            color="dark"
+                            v-on:click="uploadFile(img[1], true)"
+                        >
+                            <ion-icon :icon="cloudUpload"> </ion-icon>
+                        </ion-button>
+                    </ion-item>
+                </ion-list>
+            </div>
             <ion-fab vertical="bottom" horizontal="end" slot="fixed">
                 <ion-fab-button
                     class="animate__animated animate__bounceInLeft animate__slow"
