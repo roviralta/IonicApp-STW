@@ -12,7 +12,7 @@
                     <ion-col>
                         <ion-fab-button
                             id="camera"
-                            class="animate__animated animate__backInDown"
+                            class="animate__animated animate__fadeInLeft"
                             color="dark"
                             router-link="/home/camera"
                             router-animation="myEnterAnimation"
@@ -34,7 +34,7 @@
                     <ion-col>
                         <ion-fab-button
                             id="settings"
-                            class="animate__animated animate__backInDown"
+                            class="animate__animated animate__fadeInRight"
                             color="dark"
                             router-link="/home/settings"
                         >
