@@ -12,8 +12,9 @@
                     <ion-col>
                         <ion-fab-button
                             color="dark"
-                            v-on:click="startCamera"
                             router-link="/home/camera"
+                            router-animation="myEnterAnimation"
+                            v-on:click="startCamera"        
                             fab-fixed
                         >
                             <ion-icon :icon="camera"></ion-icon>
@@ -64,6 +65,8 @@ import { camera, images, settings } from "ionicons/icons";
 import { useCameraMobile } from "@/logic/useCamera";
 import { App } from "@capacitor/app";
 import router from "@/router";
+import { myEnterAnimation, myLeaveAnimation } from "@/logic/animations";
+
 
 export default defineComponent({
     name: "HomePage",
@@ -83,6 +86,8 @@ export default defineComponent({
 
     setup() {
         const { startCamera, stopCamera } = useCameraMobile();
+
+        let hide = true;
 
         /**
          * if the back button of the device is used in the home page, exit the app
@@ -134,6 +139,7 @@ export default defineComponent({
             settings,
             startCamera,
             stopCamera,
+            hide
         };
     },
 });
