@@ -1,7 +1,10 @@
 <template>
     <ion-page>
         <ion-header class="ion-safe-area-top">
-            <ion-toolbar color="dark">
+            <ion-toolbar
+                class="animate__animated animate__bounceInUp"
+                color="dark"
+            >
                 <ion-title style="text-align: center; padding-top: 20px"
                     ><b>Welcome!</b></ion-title
                 >
@@ -11,29 +14,31 @@
                 <ion-row text-center>
                     <ion-col>
                         <ion-fab-button
+                            id="camera"
+                            class="animate__animated animate__backInLeft animate__delay-1s animate__fast"
                             color="dark"
                             router-link="/home/camera"
                             router-animation="myEnterAnimation"
-                            v-on:click="startCamera"        
-                            fab-fixed
+                            v-on:click="startCamera;"
                         >
                             <ion-icon :icon="camera"></ion-icon>
                         </ion-fab-button>
                     </ion-col>
                     <ion-col>
                         <ion-fab-button
+                            id="gallery"
+                            class="animate__animated animate__backInDown animate__delay-1s animate__fast"
                             color="dark"
                             router-link="/home/gallery"
-                            ion-fab
-                            fab-fixed
                         >
                             <ion-icon :icon="images"></ion-icon>
                         </ion-fab-button>
                     </ion-col>
                     <ion-col>
                         <ion-fab-button
+                            id="settings"
+                            class="animate__animated animate__backInRight animate__delay-1s animate__fast"
                             color="dark"
-                            fab-fixed
                             router-link="/home/settings"
                         >
                             <ion-icon :icon="settings"></ion-icon>
@@ -65,8 +70,6 @@ import { camera, images, settings } from "ionicons/icons";
 import { useCameraMobile } from "@/logic/useCamera";
 import { App } from "@capacitor/app";
 import router from "@/router";
-import { myEnterAnimation, myLeaveAnimation } from "@/logic/animations";
-
 
 export default defineComponent({
     name: "HomePage",
@@ -86,6 +89,8 @@ export default defineComponent({
 
     setup() {
         const { startCamera, stopCamera } = useCameraMobile();
+
+        const element = document.getElementById("camera");
 
         /**
          * if the back button of the device is used in the home page, exit the app
