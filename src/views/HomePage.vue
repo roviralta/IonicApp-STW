@@ -87,8 +87,6 @@ export default defineComponent({
     setup() {
         const { startCamera, stopCamera } = useCameraMobile();
 
-        let hide = true;
-
         /**
          * if the back button of the device is used in the home page, exit the app
          * id not, go back to the previous page
@@ -139,7 +137,6 @@ export default defineComponent({
             settings,
             startCamera,
             stopCamera,
-            hide
         };
     },
 });
