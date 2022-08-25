@@ -1,10 +1,7 @@
 <template>
     <ion-page>
         <ion-header class="ion-safe-area-top">
-            <ion-toolbar
-                class="animate__animated animate__bounceInUp"
-                color="dark"
-            >
+            <ion-toolbar color="dark">
                 <ion-buttons slot="start">
                     <ion-button router-link="/home">
                         <ion-icon :icon="arrowBack"></ion-icon
@@ -39,9 +36,7 @@
             </ion-grid>
         </ion-header>
         <ion-content :fullscreen="true">
-            <div
-                class="animate__animated animate__fadeInLeftBig animate__delay-1s"
-            >
+            <div class="animate__animated animate__fadeInLeftBig">
                 <ion-list
                     style="padding: 0px"
                     :key="img[0]"

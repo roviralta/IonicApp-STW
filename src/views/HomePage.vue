@@ -1,10 +1,7 @@
 <template>
     <ion-page>
         <ion-header class="ion-safe-area-top">
-            <ion-toolbar
-                class="animate__animated animate__bounceInUp"
-                color="dark"
-            >
+            <ion-toolbar color="dark">
                 <ion-title style="text-align: center; padding-top: 20px"
                     ><b>Welcome!</b></ion-title
                 >
@@ -15,7 +12,7 @@
                     <ion-col>
                         <ion-fab-button
                             id="camera"
-                            class="animate__animated animate__backInLeft animate__delay-1s"
+                            class="animate__animated animate__backInDown"
                             color="dark"
                             router-link="/home/camera"
                             router-animation="myEnterAnimation"
@@ -27,7 +24,7 @@
                     <ion-col>
                         <ion-fab-button
                             id="gallery"
-                            class="animate__animated animate__backInDown animate__delay-1s"
+                            class="animate__animated animate__backInDown"
                             color="dark"
                             router-link="/home/gallery"
                         >
@@ -37,7 +34,7 @@
                     <ion-col>
                         <ion-fab-button
                             id="settings"
-                            class="animate__animated animate__backInRight animate__delay-1s"
+                            class="animate__animated animate__backInDown"
                             color="dark"
                             router-link="/home/settings"
                         >
