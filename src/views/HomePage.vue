@@ -19,7 +19,7 @@
                             color="dark"
                             router-link="/home/camera"
                             router-animation="myEnterAnimation"
-                            v-on:click="startCamera;"
+                            v-on:click="startCamera"
                         >
                             <ion-icon :icon="camera"></ion-icon>
                         </ion-fab-button>
