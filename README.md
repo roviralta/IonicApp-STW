@@ -64,6 +64,7 @@ IN IOS PLATFORM:
 
 # SERVER: #
  
+ Not depends to the project, is additional information of your interest.
  Server directory, in my case I use a nginx server from a debian distro:
  
  1. index.php, the first view in your server, where the images will be displayed
