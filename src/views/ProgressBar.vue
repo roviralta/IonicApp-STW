@@ -71,6 +71,7 @@ import {
     IonCol,
     IonRow,
     useBackButton,
+    alertController,
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 import { checkmark, close, arrowBack } from "ionicons/icons";
@@ -97,7 +98,38 @@ export default defineComponent({
     props: ["picts"],
 
     created() {
-        this.uploadAll(this.picts);
+        this.presentAlert();
+    },
+
+    methods: {
+        /**
+         * Present an alert to decide if upload or not the images
+         */
+        async presentAlert() {
+            const alert = alertController.create({
+                cssClass: "settings-alert",
+                message:
+                    "This will upload all the images to the server. Are you sure?",
+                buttons: [
+                    {
+                        text: "Cancel",
+                        role: "cancel",
+                        handler: () => {
+                            modalController.dismiss(null, "cancel");
+                        },
+                    },
+                    {
+                        text: "Yes",
+                        role: "confirm",
+                        handler: () => {
+                            this.uploadAll(this.picts);
+                        },
+                    },
+                ],
+            });
+
+            (await alert).present();
+        },
     },
 
     setup() {

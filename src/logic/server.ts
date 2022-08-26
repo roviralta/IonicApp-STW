@@ -124,14 +124,6 @@ export function apiServer() {
         }
     };
 
-    /**
-     *
-     * @returns delay of ms specified
-     */
-    /*   const delay = () => {
-        return new Promise((resolve) => setTimeout(resolve, 3000));
-    };
- */
     return {
         uploadFile,
         uploadAll,

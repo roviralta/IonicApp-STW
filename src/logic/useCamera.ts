@@ -222,6 +222,8 @@ export function useCameraMobile() {
      */
     const deleteAll = async (picts: Map<string, Image>) => {
         const alert = await alertController.create({
+            cssClass: "settings-alert",
+
             message: "All the pictures will be deleted. Are you sure?",
             buttons: [
                 {

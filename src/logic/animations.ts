@@ -3,7 +3,7 @@ import { createAnimation } from "@ionic/vue";
 /**
  * Animations for our modals
  * @param baseEl
- * @returns
+ * @returns entrance animation
  */
 export function myEnterAnimation(baseEl: any) {
     const root = baseEl.shadowRoot;
@@ -28,6 +28,11 @@ export function myEnterAnimation(baseEl: any) {
         .addAnimation([backdropAnimation, wrapperAnimation]);
 }
 
+/**
+ * exit animation for modals
+ * @param baseEl
+ * @returns reverse animation of the entrance
+ */
 export function myLeaveAnimation(baseEl: any) {
     return myEnterAnimation(baseEl).direction("reverse");
 }

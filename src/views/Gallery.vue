@@ -3,7 +3,10 @@
         <ion-header class="ion-safe-area-top">
             <ion-toolbar color="dark">
                 <ion-buttons slot="start">
-                    <ion-button router-link="/home">
+                    <ion-button
+                        router-link="/home"
+                        router-animation="myLeaveAnimation"
+                    >
                         <ion-icon :icon="arrowBack"></ion-icon
                     ></ion-button>
                 </ion-buttons>
@@ -117,7 +120,16 @@
                         "
                         ><ion-icon :icon="image"></ion-icon
                     ></ion-fab-button>
-                    <ion-fab-button color="dark" v-on:click="presentAlert"
+                    <ion-fab-button
+                        color="dark"
+                        v-on:click="
+                            openModal(
+                                ProgressBar,
+                                '',
+                                images,
+                                'settings-gallery'
+                            )
+                        "
                         ><ion-icon :icon="cloudUpload"></ion-icon
                     ></ion-fab-button>
                     <ion-fab-button color="dark" v-on:click="deleteAll(images)"
@@ -169,7 +181,7 @@ import ProgressBar from "@/views/ProgressBar.vue";
 import GalleryProgress from "@/views/GalleryProgress.vue";
 import { myEnterAnimation, myLeaveAnimation } from "@/logic/animations";
 import { apiServer } from "@/logic/server";
-import { alertController, ComponentRef } from "@ionic/core";
+import { ComponentRef } from "@ionic/core";
 
 export default defineComponent({
     name: "HomePage",
@@ -210,43 +222,6 @@ export default defineComponent({
         const { uploadFile, uploadAll } = apiServer();
 
         /**
-         * open lateral menu
-         */
-        async function openMenu() {
-            await menuController.open();
-        }
-
-        async function presentAlert() {
-            const alert = await alertController.create({
-                message:
-                    "This will upload all the images to the server. Are you sure?",
-                buttons: [
-                    {
-                        text: "Cancel",
-                        role: "cancel",
-                        handler: () => {
-                            modalController.dismiss(null, "cancel");
-                        },
-                    },
-                    {
-                        text: "Yes",
-                        role: "confirm",
-                        handler: () => {
-                            openModal(
-                                ProgressBar,
-                                "",
-                                images,
-                                "settings-gallery"
-                            );
-                        },
-                    },
-                ],
-            });
-
-            await alert.present();
-        }
-
-        /**
          * Open specific modal with data sent in props
          * @param comp
          * @param prop1
@@ -259,48 +234,22 @@ export default defineComponent({
             prop2: any,
             cssClass: string
         ) {
-            //First if in order to ban the dismiss action
-            if (comp == GalleryProgress || comp == ProgressBar) {
-                const modal = await modalController.create({
-                    component: comp,
-                    enterAnimation: myEnterAnimation,
-                    leaveAnimation: myLeaveAnimation,
-                    componentProps: {
-                        id: prop1,
-                        picts: prop2,
-                    },
-                    cssClass: cssClass,
-                    backdropDismiss: false,
-                });
-                modal.present();
-                //Have to load the images
-                if (comp == GalleryProgress) {
-                    const { role } = await modal.onWillDismiss();
-                    //if the image is deleted load the new storage
-                    if (role === "confirm") {
-                        loadSaved();
-                    }
-                }
-            } else {
-                //In this case we can dismiss with hardware button
-                const modal = await modalController.create({
-                    component: comp,
-                    enterAnimation: myEnterAnimation,
-                    leaveAnimation: myLeaveAnimation,
-                    componentProps: {
-                        id: prop1,
-                        picts: prop2,
-                    },
-                    cssClass: cssClass,
-                });
-                modal.present();
-                //only if we have to delete we have to load
-                if (comp == Delete) {
-                    const { role } = await modal.onWillDismiss();
-                    //if the image is deleted load the new storage
-                    if (role === "confirm") {
-                        loadSaved();
-                    }
+            const modal = await modalController.create({
+                component: comp,
+                enterAnimation: myEnterAnimation,
+                leaveAnimation: myLeaveAnimation,
+                componentProps: {
+                    id: prop1,
+                    picts: prop2,
+                },
+                cssClass: cssClass,
+            });
+            modal.present();
+            //Have to load the images
+            if (comp == GalleryProgress || comp == Delete) {
+                const { role } = await modal.onWillDismiss();
+                if (role === "confirm") {
+                    loadSaved();
                 }
             }
         }
@@ -311,7 +260,6 @@ export default defineComponent({
             deletePicture,
             close,
             arrowBack,
-            openMenu,
             loadSaved,
             openPreview,
             images,
@@ -328,7 +276,6 @@ export default defineComponent({
             Image,
             ProgressBar,
             GalleryProgress,
-            presentAlert,
         };
     },
 });

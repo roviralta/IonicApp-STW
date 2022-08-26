@@ -65,7 +65,6 @@ import {
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 import { checkmark, close, arrowBack } from "ionicons/icons";
-
 import { useCameraMobile } from "@/logic/useCamera";
 
 export default defineComponent({
