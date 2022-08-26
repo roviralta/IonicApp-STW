@@ -60,7 +60,7 @@ IN IOS PLATFORM:
  This will allow you do http requests
 
 
-SERVER:
+# SERVER: #
  
  Server directory, in my case I use a nginx server from a debian distro:
  
