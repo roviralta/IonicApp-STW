@@ -2,7 +2,8 @@
 #   STW-IonicApp        #
 #   GALLERY IONIC APP   #         
 
-DEPLOYMENT:
+
+# DEPLOYMENT: #
 
 First of all install ionic tooling
 
@@ -58,6 +59,7 @@ IN IOS PLATFORM:
         
  Check if the option App Transport Security Settings -> Allow Arbritary Loads is set to YES.
  This will allow you do http requests
+
 
 
 # SERVER: #
