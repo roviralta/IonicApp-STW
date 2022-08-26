@@ -112,7 +112,7 @@ export default defineComponent({
          */
         async function presentAlert() {
             const alert = await alertController.create({
-                header: "The app will be closed!",
+                message: "The app will be closed!",
                 buttons: [
                     {
                         text: "Cancel",

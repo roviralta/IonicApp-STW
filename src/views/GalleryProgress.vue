@@ -62,7 +62,6 @@ import {
     IonGrid,
     IonCol,
     IonRow,
-    useBackButton,
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 import { checkmark, close, arrowBack } from "ionicons/icons";

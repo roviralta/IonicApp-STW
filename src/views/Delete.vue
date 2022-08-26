@@ -65,7 +65,6 @@ import {
     IonButtons,
     IonFabButton,
     IonPage,
-    useBackButton,
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 import { useCameraMobile } from "@/logic/useCamera";

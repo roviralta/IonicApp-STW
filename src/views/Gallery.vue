@@ -117,16 +117,7 @@
                         "
                         ><ion-icon :icon="image"></ion-icon
                     ></ion-fab-button>
-                    <ion-fab-button
-                        color="dark"
-                        v-on:click="
-                            openModal(
-                                ProgressBar,
-                                '',
-                                images,
-                                'settings-progress'
-                            )
-                        "
+                    <ion-fab-button color="dark" v-on:click="presentAlert"
                         ><ion-icon :icon="cloudUpload"></ion-icon
                     ></ion-fab-button>
                     <ion-fab-button color="dark" v-on:click="deleteAll(images)"
@@ -178,7 +169,7 @@ import ProgressBar from "@/views/ProgressBar.vue";
 import GalleryProgress from "@/views/GalleryProgress.vue";
 import { myEnterAnimation, myLeaveAnimation } from "@/logic/animations";
 import { apiServer } from "@/logic/server";
-import { ComponentRef } from "@ionic/core";
+import { alertController, ComponentRef } from "@ionic/core";
 
 export default defineComponent({
     name: "HomePage",
@@ -225,6 +216,36 @@ export default defineComponent({
             await menuController.open();
         }
 
+        async function presentAlert() {
+            const alert = await alertController.create({
+                message:
+                    "This will upload all the images to the server. Are you sure?",
+                buttons: [
+                    {
+                        text: "Cancel",
+                        role: "cancel",
+                        handler: () => {
+                            modalController.dismiss(null, "cancel");
+                        },
+                    },
+                    {
+                        text: "Yes",
+                        role: "confirm",
+                        handler: () => {
+                            openModal(
+                                ProgressBar,
+                                "",
+                                images,
+                                "settings-gallery"
+                            );
+                        },
+                    },
+                ],
+            });
+
+            await alert.present();
+        }
+
         /**
          * Open specific modal with data sent in props
          * @param comp
@@ -238,22 +259,48 @@ export default defineComponent({
             prop2: any,
             cssClass: string
         ) {
-            const modal = await modalController.create({
-                component: comp,
-                enterAnimation: myEnterAnimation,
-                leaveAnimation: myLeaveAnimation,
-                componentProps: {
-                    id: prop1,
-                    picts: prop2,
-                },
-                cssClass: cssClass,
-            });
-            modal.present();
-            if (comp == Delete || comp == GalleryProgress) {
-                const { role } = await modal.onWillDismiss();
-                //if the image is deleted load the new storage
-                if (role === "confirm") {
-                    loadSaved();
+            //First if in order to ban the dismiss action
+            if (comp == GalleryProgress || comp == ProgressBar) {
+                const modal = await modalController.create({
+                    component: comp,
+                    enterAnimation: myEnterAnimation,
+                    leaveAnimation: myLeaveAnimation,
+                    componentProps: {
+                        id: prop1,
+                        picts: prop2,
+                    },
+                    cssClass: cssClass,
+                    backdropDismiss: false,
+                });
+                modal.present();
+                //Have to load the images
+                if (comp == GalleryProgress) {
+                    const { role } = await modal.onWillDismiss();
+                    //if the image is deleted load the new storage
+                    if (role === "confirm") {
+                        loadSaved();
+                    }
+                }
+            } else {
+                //In this case we can dismiss with hardware button
+                const modal = await modalController.create({
+                    component: comp,
+                    enterAnimation: myEnterAnimation,
+                    leaveAnimation: myLeaveAnimation,
+                    componentProps: {
+                        id: prop1,
+                        picts: prop2,
+                    },
+                    cssClass: cssClass,
+                });
+                modal.present();
+                //only if we have to delete we have to load
+                if (comp == Delete) {
+                    const { role } = await modal.onWillDismiss();
+                    //if the image is deleted load the new storage
+                    if (role === "confirm") {
+                        loadSaved();
+                    }
                 }
             }
         }
@@ -281,6 +328,7 @@ export default defineComponent({
             Image,
             ProgressBar,
             GalleryProgress,
+            presentAlert,
         };
     },
 });
