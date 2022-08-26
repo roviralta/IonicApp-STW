@@ -247,7 +247,6 @@ export default defineComponent({
                     picts: prop2,
                 },
                 cssClass: cssClass,
-                backdropDismiss: false,
             });
             modal.present();
             if (comp == Delete || comp == GalleryProgress) {
