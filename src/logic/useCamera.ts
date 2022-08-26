@@ -9,7 +9,7 @@ import { alertController, isPlatform, toastController } from "@ionic/vue";
 import { Storage } from "@capacitor/storage";
 import { Camera, GalleryImageOptions } from "@capacitor/camera";
 import Image from "@/logic/Image";
-import { onUpdated, reactive, watch } from "vue";
+import { onUpdated, reactive, ref, watch } from "vue";
 import { modalController } from "@ionic/vue";
 import Preview from "@/views/Preview.vue";
 import { myEnterAnimation, myLeaveAnimation } from "./animations";
@@ -22,6 +22,9 @@ import moment from "moment";
 export function useCameraMobile() {
     const PHOTO_STORAGE = "images";
     const images = reactive(new Map<string, Image>());
+    const size = ref(0);
+    const value = ref(0);
+    const abort = ref(false);
 
     /**
      * Generate unique ID for each picture with date concataned with a random number between 1 and 10000
@@ -38,28 +41,44 @@ export function useCameraMobile() {
      * open device gallery in order to pick images
      */
     const openGallery = () => {
+        value.value = 0;
         const options: GalleryImageOptions = {
             quality: 90,
             correctOrientation: true,
         };
         Camera.pickImages(options).then(async (result) => {
             const picts = result.photos;
+            size.value = picts.length;
             for (let i = 0; i < picts.length; i++) {
-                const date = moment().format("DD/MM/YYYY, HH:mm");
-                const fileName = new Date().getTime() + ".jpeg";
+                if (abort.value == false) {
+                    const date = moment().format("DD/MM/YYYY, HH:mm");
+                    const fileName = new Date().getTime() + ".jpeg";
 
-                //Have to pass from blob to base 64 in order to read from the Filesystem correctly
-                const response = await fetch(picts[i].webPath);
-                const blob = await response.blob();
-                const base64Data = (await convertBlobToBase64(blob)) as string;
+                    //Have to pass from blob to base 64 in order to read from the Filesystem correctly
+                    const response = await fetch(picts[i].webPath);
+                    const blob = await response.blob();
+                    const base64Data = (await convertBlobToBase64(
+                        blob
+                    )) as string;
 
-                const savedPicture = await saveImage(
-                    base64Data,
-                    fileName,
-                    "",
-                    date
-                );
-                images.set(generateID(), savedPicture);
+                    const savedPicture = await saveImage(
+                        base64Data,
+                        fileName,
+                        "",
+                        date
+                    );
+                    value.value++;
+                    images.set(generateID(), savedPicture);
+                } else {
+                    //If it is we toast a message
+                    const toast = toastController.create({
+                        message: "Import cancelled",
+                        duration: 2500,
+                        cssClass: "settings-toast",
+                    });
+                    (await toast).present();
+                    return;
+                }
             }
         });
     };
@@ -244,7 +263,7 @@ export function useCameraMobile() {
      * read the images from the device storage, and set to the hashmap in order to display it
      */
     const loadSaved = async () => {
-        images.clear(); //clean the map to load only store images
+        images.clear(); //clean the map to load only storage images
         const photoList = await Storage.get({ key: PHOTO_STORAGE });
         const photosInStorage = photoList.value
             ? JSON.parse(photoList.value)
@@ -319,5 +338,8 @@ export function useCameraMobile() {
         loadSaved,
         openPreview,
         deleteAll,
+        value,
+        size,
+        abort,
     };
 }

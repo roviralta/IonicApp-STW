@@ -33,6 +33,7 @@ import {
     IonToolbar,
     IonButton,
     IonButtons,
+    useBackButton,
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 import { useCameraMobile } from "@/logic/useCamera";

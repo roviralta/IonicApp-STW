@@ -36,7 +36,7 @@
             </ion-grid>
         </ion-header>
         <ion-content :fullscreen="true">
-            <div class="animate__animated animate__fadeInLeftBig">
+            <div class="animate__animated animate__bounceIn animate__delay-1s">
                 <ion-list
                     style="padding: 0px"
                     :key="img[0]"
@@ -105,7 +105,16 @@
                     class="animate__animated animate__bounceInRight"
                     side="top"
                 >
-                    <ion-fab-button color="dark" v-on:click="openGallery"
+                    <ion-fab-button
+                        color="dark"
+                        v-on:click="
+                            openModal(
+                                GalleryProgress,
+                                '',
+                                images,
+                                'settings-gallery'
+                            )
+                        "
                         ><ion-icon :icon="image"></ion-icon
                     ></ion-fab-button>
                     <ion-fab-button
@@ -166,6 +175,7 @@ import { useCameraMobile } from "@/logic/useCamera";
 import Delete from "@/views/Delete.vue";
 import Image from "@/views/Image.vue";
 import ProgressBar from "@/views/ProgressBar.vue";
+import GalleryProgress from "@/views/GalleryProgress.vue";
 import { myEnterAnimation, myLeaveAnimation } from "@/logic/animations";
 import { apiServer } from "@/logic/server";
 import { ComponentRef } from "@ionic/core";
@@ -237,9 +247,10 @@ export default defineComponent({
                     picts: prop2,
                 },
                 cssClass: cssClass,
+                backdropDismiss: false,
             });
             modal.present();
-            if (comp == Delete) {
+            if (comp == Delete || comp == GalleryProgress) {
                 const { role } = await modal.onWillDismiss();
                 //if the image is deleted load the new storage
                 if (role === "confirm") {
@@ -270,6 +281,7 @@ export default defineComponent({
             Delete,
             Image,
             ProgressBar,
+            GalleryProgress,
         };
     },
 });

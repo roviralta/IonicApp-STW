@@ -19,10 +19,13 @@
         </ion-header>
         <ion-content>
             <ion-list>
-                <ion-item button
+                <ion-item button class="animate__animated animate__backInUp"
                     ><ion-icon :icon="server"></ion-icon>Server</ion-item
                 >
-                <ion-item button v-on:click="presentAlert"
+                <ion-item
+                    button
+                    v-on:click="presentAlert"
+                    class="animate__animated animate__backInUp"
                     ><ion-icon :icon="exit"></ion-icon>Exit</ion-item
                 >
             </ion-list>

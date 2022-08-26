@@ -8,7 +8,7 @@
                     ></ion-button>
                 </ion-buttons>
                 <ion-title style="text-align: center; margin-right: 30px"
-                    ><b>Uploading...</b></ion-title
+                    ><b>Importing...</b></ion-title
                 >
             </ion-toolbar>
         </ion-header>
@@ -16,7 +16,13 @@
             <ion-grid style="height: 100%"
                 ><ion-row style="height: 60%"
                     ><ion-col>
-                        <div v-show="size > 0">
+                        <div v-if="size == 0">
+                            <h5 style="margin-top: 10%">
+                                Choosing some images to import from the gallery
+                            </h5>
+                        </div>
+                        <div v-if="size > 0">
+                            <br />
                             <h5>
                                 Total images: {{ value }}/{{ size }}
                                 {{ ((value / size) * 100).toFixed(2) }}%
@@ -24,22 +30,8 @@
                             <ion-progress-bar
                                 :value="value / size"
                             ></ion-progress-bar>
-
-                            <h5>
-                                Actual image:
-                                {{ ((imgValue / steps) * 100).toFixed(2) }}%
-                            </h5>
-                            <ion-progress-bar
-                                :value="imgValue / steps"
-                            ></ion-progress-bar>
                         </div>
-                        <div v-show="size == 0" style="height: 30%">
-                            <h5 style="margin-top: 25%">
-                                Can't upload any image, add one in order to
-                                complete the process
-                            </h5>
-                            <br /></div
-                    ></ion-col>
+                    </ion-col>
                 </ion-row>
                 <br />
                 <br />
@@ -74,10 +66,11 @@ import {
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 import { checkmark, close, arrowBack } from "ionicons/icons";
-import { apiServer } from "@/logic/server";
+
+import { useCameraMobile } from "@/logic/useCamera";
 
 export default defineComponent({
-    name: "ProgressBar",
+    name: "GalleryProgress",
 
     components: {
         IonContent,
@@ -94,21 +87,21 @@ export default defineComponent({
         IonRow,
     },
 
-    props: ["picts"],
-
     created() {
-        this.uploadAll(this.picts);
+        this.loadSaved();
+        this.openGallery();
     },
 
     setup() {
-        const { value, uploadAll, size, steps, imgValue, abort } = apiServer();
+        const { openGallery, value, size, abort, images, loadSaved } =
+            useCameraMobile();
 
         /**
          * change abort value to stop the uploadAll function and dismiss the modal
          */
         function cancel() {
             abort.value = true;
-            return modalController.dismiss(null, "cancel");
+            return modalController.dismiss(images, "confirm");
         }
 
         return {
@@ -117,11 +110,10 @@ export default defineComponent({
             close,
             arrowBack,
             value,
-            uploadAll,
+            openGallery,
             size,
-            steps,
-            imgValue,
-            abort,
+            loadSaved,
+            images,
         };
     },
 });

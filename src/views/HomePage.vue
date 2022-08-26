@@ -87,8 +87,6 @@ export default defineComponent({
     setup() {
         const { startCamera, stopCamera } = useCameraMobile();
 
-        const element = document.getElementById("camera");
-
         /**
          * if the back button of the device is used in the home page, exit the app
          * id not, go back to the previous page

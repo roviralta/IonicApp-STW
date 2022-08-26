@@ -78,6 +78,7 @@ import {
     IonButton,
     IonTitle,
     IonTextarea,
+    useBackButton,
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 import { useCameraMobile } from "@/logic/useCamera";
@@ -128,11 +129,9 @@ export default defineComponent({
 
             const history = window.location.pathname;
             if (history == "/home/camera") {
-                modalController.dismiss(images, "confirm");
                 startCamera();
-            } else {
-                return modalController.dismiss(images, "confirm");
             }
+            return modalController.dismiss(images, "confirm");
         }
 
         /**
